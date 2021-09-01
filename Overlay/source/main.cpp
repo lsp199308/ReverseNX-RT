@@ -69,22 +69,22 @@ public:
 		auto list = new tsl::elm::List();
 		
 		list->addItem(new tsl::elm::CustomDrawer([](tsl::gfx::Renderer *renderer, s32 x, s32 y, s32 w, s32 h) {
-			if (SaltySD == false) renderer->drawString("SaltyNX is not working!", false, x, y+50, 20, renderer->a(0xF33F));
-			else if (plugin == false) renderer->drawString("Can't detect ReverseNX-RT plugin!", false, x, y+50, 20, renderer->a(0xF33F));
+			if (SaltySD == false) renderer->drawString("SaltyNX没有运行!", false, x, y+50, 20, renderer->a(0xF33F));
+			else if (plugin == false) renderer->drawString("没有检测到ReverseNX-RT插件!", false, x, y+50, 20, renderer->a(0xF33F));
 			else if (check == false) {
-				if (closed == true) renderer->drawString("Game was closed! Overlay disabled!\nExit from overlay and run game first!", false, x, y+20, 19, renderer->a(0xF33F));
-				else renderer->drawString("Game is not running! Overlay disabled!\nExit from overlay and run game first!", false, x, y+20, 19, renderer->a(0xF33F));
+				if (closed == true) renderer->drawString("游戏已关闭！Overlay插件禁用！\n退出Overlay插件，然后运行游戏先！", false, x, y+20, 19, renderer->a(0xF33F));
+				else renderer->drawString("游戏没有运行！Overlay插件禁用！\n退出Overlay插件，然后运行游戏先!", false, x, y+20, 19, renderer->a(0xF33F));
 				renderer->drawString(PluginChar, false, x, y+60, 20, renderer->a(0xFFFF));
 			}
 			else if (PluginRunning == false) {
-				renderer->drawString("Game is running.", false, x, y+20, 20, renderer->a(0xFFFF));
-				renderer->drawString("ReverseNX-RT is not running!", false, x, y+40, 20, renderer->a(0xF33F));
+				renderer->drawString("游戏正在运行。", false, x, y+20, 20, renderer->a(0xFFFF));
+				renderer->drawString("ReverseNX-RT插件没有运行!", false, x, y+40, 20, renderer->a(0xF33F));
 				renderer->drawString(PluginChar, false, x, y+60, 20, renderer->a(0xFFFF));
 			}
 			else {
-				renderer->drawString("ReverseNX-RT plugin is running.", false, x, y+20, 20, renderer->a(0xFFFF));
-				if (MAGIC == 0x16BA7E39) renderer->drawString("Game doesn't support changing modes!", false, x, y+40, 18, renderer->a(0xF33F));
-				else if (MAGIC != 0x06BA7E39) renderer->drawString("WRONG MAGIC!", false, x, y+40, 20, renderer->a(0xF33F));
+				renderer->drawString("ReverseNX-RT插件正在运行。", false, x, y+20, 20, renderer->a(0xFFFF));
+				if (MAGIC == 0x16BA7E39) renderer->drawString("游戏不支持更改模式!", false, x, y+40, 18, renderer->a(0xF33F));
+				else if (MAGIC != 0x06BA7E39) renderer->drawString("错误的魔法数!", false, x, y+40, 20, renderer->a(0xF33F));
 				else {
 					renderer->drawString(SystemChar, false, x, y+40, 20, renderer->a(0xFFFF));
 					renderer->drawString(DockedChar, false, x, y+60, 20, renderer->a(0xFFFF));
@@ -93,7 +93,7 @@ public:
 	}), 100);
 
 		if (MAGIC == 0x06BA7E39) {
-			auto *clickableListItem = new tsl::elm::ListItem("Change system control");
+			auto *clickableListItem = new tsl::elm::ListItem("更改系统控制");
 			clickableListItem->setClickListener([](u64 keys) { 
 				if (keys & KEY_A) {
 					if (PluginRunning == true) {
@@ -118,7 +118,7 @@ public:
 
 			list->addItem(clickableListItem);
 			
-			auto *clickableListItem2 = new tsl::elm::ListItem("Change mode");
+			auto *clickableListItem2 = new tsl::elm::ListItem("更改模式");
 			clickableListItem2->setClickListener([](u64 keys) { 
 				if (keys & KEY_A) {
 					if (PluginRunning == true && def == false) {
@@ -143,7 +143,7 @@ public:
 			list->addItem(clickableListItem2);
 		}
 		else if (SaltySD == true && plugin == true && check == false) {
-			auto *clickableListItem = new tsl::elm::ListItem("(De)activate plugin");
+			auto *clickableListItem = new tsl::elm::ListItem("(解除)激活插件");
 			clickableListItem->setClickListener([](u64 keys) { 
 				if (keys & KEY_A) {
 					if (bak == false) {
@@ -190,14 +190,14 @@ public:
 			else i++;
 		}
 		
-		if (isDocked == true) sprintf(DockedChar, "Mode: Docked");
-		else sprintf(DockedChar, "Mode: Handheld");
+		if (isDocked == true) sprintf(DockedChar, "模式：底座");
+		else sprintf(DockedChar, "模式：掌机");
 		
-		if (def == true) sprintf(SystemChar, "Controlled by system: Yes");
-		else sprintf(SystemChar, "Controlled by system: No");
+		if (def == true) sprintf(SystemChar, "由系统控制: Yes");
+		else sprintf(SystemChar, "由系统控制: No");
 		
-		if (bak == false) sprintf(PluginChar, "ReverseNX-RT plugin is activated.");
-		else sprintf(PluginChar, "ReverseNX-RT plugin is deactivated.");
+		if (bak == false) sprintf(PluginChar, "ReverseNX-RT插件已激活。");
+		else sprintf(PluginChar, "ReverseNX-RT插件已停用。");
 	
 	}
 
@@ -221,7 +221,7 @@ public:
 		if (temp != NULL) {
 			fclose(temp);
 			plugin = true;
-			sprintf(PluginChar, "ReverseNX-RT plugin is activated.");
+			sprintf(PluginChar, "ReverseNX-RT插件已激活。");
 		}
 		else {
 			temp = fopen("sdmc:/SaltySD/plugins/ReverseNX-RT.elf.bak", "r");
@@ -229,7 +229,7 @@ public:
 				fclose(temp);
 				plugin = true;
 				bak = true;
-				sprintf(PluginChar, "ReverseNX-RT plugin is deactivated.");
+				sprintf(PluginChar, "ReverseNX-RT插件已停用。");
 			}
 			else return;
 		}
@@ -273,11 +273,11 @@ public:
 			}
 		}
 		
-		if (isDocked == true) sprintf(DockedChar, "Mode: Docked");
-		else sprintf(DockedChar, "Mode: Handheld");
+		if (isDocked == true) sprintf(DockedChar, "模式：底座");
+		else sprintf(DockedChar, "模式：掌机");
 		
-		if (def == true) sprintf(SystemChar, "Controlled by system: Yes");
-		else sprintf(SystemChar, "Controlled by system: No");
+		if (def == true) sprintf(SystemChar, "由系统控制: Yes");
+		else sprintf(SystemChar, "由系统控制: No");
 	
 	}  // Called at the start to initialize all services necessary for this Overlay
 	
